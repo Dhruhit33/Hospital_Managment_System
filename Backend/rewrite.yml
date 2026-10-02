@@ -1,0 +1,57 @@
+type: specs.openrewrite.org/v1beta/recipe
+name: com.example.RefactorHospital
+displayName: Refactor Hospital
+recipeList:
+  - org.openrewrite.java.ChangePackage:
+      oldPackageName: com.example.me.hospitalmanagement.repository
+      newPackageName: com.example.me.hospitalmanagement.repository
+  - org.openrewrite.java.ChangePackage:
+      oldPackageName: com.example.me.hospitalmanagement.security
+      newPackageName: com.example.me.hospitalmanagement.security
+  - org.openrewrite.java.ChangePackage:
+      oldPackageName: com.example.me.hospitalmanagement.service.impl
+      newPackageName: com.example.me.hospitalmanagement.service.impl
+      
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: com.example.me.hospitalmanagement.entity.Patient
+      newFullyQualifiedTypeName: com.example.me.hospitalmanagement.entity.Patient
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: com.example.me.hospitalmanagement.dto.PatientDto
+      newFullyQualifiedTypeName: com.example.me.hospitalmanagement.dto.PatientDto
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: com.example.me.hospitalmanagement.repository.PatientRepository
+      newFullyQualifiedTypeName: com.example.me.hospitalmanagement.repository.PatientRepository
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: com.example.me.hospitalmanagement.controller.PatientController
+      newFullyQualifiedTypeName: com.example.me.hospitalmanagement.controller.PatientController
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: com.example.me.hospitalmanagement.service.impl.PatientServiceImpl
+      newFullyQualifiedTypeName: com.example.me.hospitalmanagement.service.impl.PatientServiceImpl
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: com.example.me.hospitalmanagement.entity.type.PermissionType
+      newFullyQualifiedTypeName: com.example.me.hospitalmanagement.entity.type.PermissionType
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: com.example.me.hospitalmanagement.error.GlobalExceptionHandler
+      newFullyQualifiedTypeName: com.example.me.hospitalmanagement.error.GlobalExceptionHandler
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: com.example.me.hospitalmanagement.security.OAuth2SuccessHandler
+      newFullyQualifiedTypeName: com.example.me.hospitalmanagement.security.OAuth2SuccessHandler
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: com.example.me.hospitalmanagement.security.AuthUtil
+      newFullyQualifiedTypeName: com.example.me.hospitalmanagement.security.AuthUtil
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: com.example.me.hospitalmanagement.dto.LoginResponseDto
+      newFullyQualifiedTypeName: com.example.me.hospitalmanagement.dto.LoginResponseDto
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: com.example.me.hospitalmanagement.dto.BloodGroupCountResponse
+      newFullyQualifiedTypeName: com.example.me.hospitalmanagement.dto.BloodGroupCountResponse
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: com.example.me.hospitalmanagement.dto.OnboardDoctorRequestDto
+      newFullyQualifiedTypeName: com.example.me.hospitalmanagement.dto.OnboardDoctorRequestDto
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: com.example.me.hospitalmanagement.HospitalManagementApplication
+      newFullyQualifiedTypeName: com.example.me.hospitalmanagement.HospitalManagementApplication
+
+  - org.openrewrite.java.ChangePackage:
+      oldPackageName: com.example.me.hospitalmanagement
+      newPackageName: com.example.me.hospitalmanagement

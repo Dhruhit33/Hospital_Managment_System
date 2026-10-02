@@ -1,0 +1,823 @@
+{
+	"info": {
+		"_postman_id": "hospital-management-api-collection",
+		"name": "Hospital Management System APIs",
+		"description": "Complete collection of APIs for Hospital Management System categorized by role (Public, Auth, Admin, Doctor, Patient).",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "admin_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "doctor_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "patient_token",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "1. Authentication",
+			"item": [
+				{
+					"name": "Admin Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.token) {",
+									"    pm.collectionVariables.set('admin_token', jsonData.token);",
+									"    console.log('Saved admin_token: ' + jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"admin@hospital.com\",\n  \"password\": \"AdminPassword123!\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "Patient Signup",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"patient1@example.com\",\n  \"password\": \"Patient123!\",\n  \"name\": \"John Doe\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/signup",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "signup"]
+						}
+					}
+				},
+				{
+					"name": "Patient Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.token) {",
+									"    pm.collectionVariables.set('patient_token', jsonData.token);",
+									"    console.log('Saved patient_token: ' + jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"patient1@example.com\",\n  \"password\": \"Patient123!\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "Doctor Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.token) {",
+									"    pm.collectionVariables.set('doctor_token', jsonData.token);",
+									"    console.log('Saved doctor_token: ' + jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"doctor@hospital.com\",\n  \"password\": \"Doctor123!\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "login"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "2. Public APIs",
+			"item": [
+				{
+					"name": "Get Public Doctors (Search & Filter)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/public/doctors?page=0&size=10&sort=id,asc",
+							"host": ["{{base_url}}"],
+							"path": ["public", "doctors"],
+							"query": [
+								{ "key": "name", "value": "Smith", "disabled": true },
+								{ "key": "specialization", "value": "Cardiology", "disabled": true },
+								{ "key": "departmentId", "value": "1", "disabled": true },
+								{ "key": "page", "value": "0" },
+								{ "key": "size", "value": "10" },
+								{ "key": "sort", "value": "id,asc" }
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Public Doctor By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/public/doctors/1",
+							"host": ["{{base_url}}"],
+							"path": ["public", "doctors", "1"]
+						}
+					}
+				},
+				{
+					"name": "Get Public Departments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/public/departments?page=0&size=10",
+							"host": ["{{base_url}}"],
+							"path": ["public", "departments"],
+							"query": [
+								{ "key": "page", "value": "0" },
+								{ "key": "size", "value": "10" }
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "3. Admin APIs",
+			"item": [
+				{
+					"name": "Get Admin Dashboard Stats",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/admin/dashboard",
+							"host": ["{{base_url}}"],
+							"path": ["admin", "dashboard"]
+						}
+					}
+				},
+				{
+					"name": "Search Patients",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/admin/patients?page=0&size=10",
+							"host": ["{{base_url}}"],
+							"path": ["admin", "patients"],
+							"query": [
+								{ "key": "name", "value": "John", "disabled": true },
+								{ "key": "bloodGroup", "value": "O_POSITIVE", "disabled": true },
+								{ "key": "bornAfter", "value": "1990-01-01", "disabled": true },
+								{ "key": "page", "value": "0" },
+								{ "key": "size", "value": "10" }
+							]
+						}
+					}
+				},
+				{
+					"name": "Onboard New Doctor",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": 2,\n  \"name\": \"Dr. Robert Smith\",\n  \"specialization\": \"Cardiology\",\n  \"email\": \"robert.smith@hospital.com\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/admin/onBoardNewDoctor",
+							"host": ["{{base_url}}"],
+							"path": ["admin", "onBoardNewDoctor"]
+						}
+					}
+				},
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/admin/users?page=0&size=10",
+							"host": ["{{base_url}}"],
+							"path": ["admin", "users"],
+							"query": [
+								{ "key": "role", "value": "DOCTOR", "disabled": true },
+								{ "key": "page", "value": "0" },
+								{ "key": "size", "value": "10" }
+							]
+						}
+					}
+				},
+				{
+					"name": "Update User Roles",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\"DOCTOR\"]"
+						},
+						"url": {
+							"raw": "{{base_url}}/admin/users/2/roles",
+							"host": ["{{base_url}}"],
+							"path": ["admin", "users", "2", "roles"]
+						}
+					}
+				},
+				{
+					"name": "Disable User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/admin/users/2/disable",
+							"host": ["{{base_url}}"],
+							"path": ["admin", "users", "2", "disable"]
+						}
+					}
+				},
+				{
+					"name": "Enable User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/admin/users/2/enable",
+							"host": ["{{base_url}}"],
+							"path": ["admin", "users", "2", "enable"]
+						}
+					}
+				},
+				{
+					"name": "Create Department",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Cardiology\",\n  \"description\": \"Heart and cardiovascular department\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/admin/departments",
+							"host": ["{{base_url}}"],
+							"path": ["admin", "departments"]
+						}
+					}
+				},
+				{
+					"name": "Assign Doctor to Department",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/admin/departments/1/doctors/1",
+							"host": ["{{base_url}}"],
+							"path": ["admin", "departments", "1", "doctors", "1"]
+						}
+					}
+				},
+				{
+					"name": "Generate Bill for Appointment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"medicineCharges\": 150.00,\n  \"otherCharges\": 50.00\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/admin/bills/generate/1",
+							"host": ["{{base_url}}"],
+							"path": ["admin", "bills", "generate", "1"]
+						}
+					}
+				},
+				{
+					"name": "Get All Bills (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/admin/bills?page=0&size=10",
+							"host": ["{{base_url}}"],
+							"path": ["admin", "bills"],
+							"query": [
+								{ "key": "status", "value": "UNPAID", "disabled": true },
+								{ "key": "page", "value": "0" },
+								{ "key": "size", "value": "10" }
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "4. Doctor APIs",
+			"item": [
+				{
+					"name": "Get Doctor Appointments",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{doctor_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/doctor/appointments",
+							"host": ["{{base_url}}"],
+							"path": ["doctor", "appointments"]
+						}
+					}
+				},
+				{
+					"name": "Set Doctor Weekly Availability",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{doctor_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"schedules\": [\n    {\n      \"dayOfWeek\": \"MONDAY\",\n      \"startTime\": \"09:00:00\",\n      \"endTime\": \"17:00:00\",\n      \"slotDurationMinutes\": 30\n    },\n    {\n      \"dayOfWeek\": \"WEDNESDAY\",\n      \"startTime\": \"09:00:00\",\n      \"endTime\": \"13:00:00\",\n      \"slotDurationMinutes\": 30\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/doctor/availability",
+							"host": ["{{base_url}}"],
+							"path": ["doctor", "availability"]
+						}
+					}
+				},
+				{
+					"name": "Get Own Availability",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{doctor_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/doctor/availability",
+							"host": ["{{base_url}}"],
+							"path": ["doctor", "availability"]
+						}
+					}
+				},
+				{
+					"name": "Add Doctor Leave",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{doctor_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"startDate\": \"2026-10-15\",\n  \"endDate\": \"2026-10-18\",\n  \"reason\": \"Attending Medical Conference\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/doctor/leave",
+							"host": ["{{base_url}}"],
+							"path": ["doctor", "leave"]
+						}
+					}
+				},
+				{
+					"name": "Get Available Doctor Slots for Date",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{doctor_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/doctor/slots?doctorId=1&date=2026-10-20",
+							"host": ["{{base_url}}"],
+							"path": ["doctor", "slots"],
+							"query": [
+								{ "key": "doctorId", "value": "1" },
+								{ "key": "date", "value": "2026-10-20" }
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Medical Record for Appointment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{doctor_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"diagnosis\": \"Mild hypertension\",\n  \"prescription\": \"Amlodipine 5mg once daily\",\n  \"notes\": \"Follow up in 2 weeks\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/doctor/appointments/1/record",
+							"host": ["{{base_url}}"],
+							"path": ["doctor", "appointments", "1", "record"]
+						}
+					}
+				},
+				{
+					"name": "Get Patient Medical History (Doctor)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{doctor_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/doctor/patients/1/records?page=0&size=10",
+							"host": ["{{base_url}}"],
+							"path": ["doctor", "patients", "1", "records"],
+							"query": [
+								{ "key": "page", "value": "0" },
+								{ "key": "size", "value": "10" }
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "5. Patient APIs",
+			"item": [
+				{
+					"name": "Book New Appointment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{patient_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"doctorId\": 1,\n  \"appointmentTime\": \"2026-10-25T10:30:00\",\n  \"reason\": \"Regular annual health checkup\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/appointments",
+							"host": ["{{base_url}}"],
+							"path": ["appointments"]
+						}
+					}
+				},
+				{
+					"name": "Reschedule Appointment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{patient_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"newAppointmentTime\": \"2026-10-26T11:00:00\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/appointments/1/reschedule",
+							"host": ["{{base_url}}"],
+							"path": ["appointments", "1", "reschedule"]
+						}
+					}
+				},
+				{
+					"name": "Cancel Appointment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{patient_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"reason\": \"Schedule conflict\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/appointments/1/cancel",
+							"host": ["{{base_url}}"],
+							"path": ["appointments", "1", "cancel"]
+						}
+					}
+				},
+				{
+					"name": "Add or Update Insurance",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{patient_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"policyNumber\": \"POL-987654321\",\n  \"provider\": \"CareHealth Global\",\n  \"validUntil\": \"2027-12-31\",\n  \"coveragePercent\": 80\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/patient/insurance",
+							"host": ["{{base_url}}"],
+							"path": ["patient", "insurance"]
+						}
+					}
+				},
+				{
+					"name": "View Patient Insurance",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{patient_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/patient/insurance",
+							"host": ["{{base_url}}"],
+							"path": ["patient", "insurance"]
+						}
+					}
+				},
+				{
+					"name": "Delete Patient Insurance",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{patient_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/patient/insurance",
+							"host": ["{{base_url}}"],
+							"path": ["patient", "insurance"]
+						}
+					}
+				},
+				{
+					"name": "Get Patient Medical Records",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{patient_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/patient/records?page=0&size=10",
+							"host": ["{{base_url}}"],
+							"path": ["patient", "records"],
+							"query": [
+								{ "key": "page", "value": "0" },
+								{ "key": "size", "value": "10" }
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Patient Bills",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{patient_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/patient/bills?page=0&size=10",
+							"host": ["{{base_url}}"],
+							"path": ["patient", "bills"],
+							"query": [
+								{ "key": "status", "value": "UNPAID", "disabled": true },
+								{ "key": "page", "value": "0" },
+								{ "key": "size", "value": "10" }
+							]
+						}
+					}
+				},
+				{
+					"name": "Pay Patient Bill",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{patient_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": 200.00,\n  \"method\": \"CARD\",\n  \"transactionRef\": \"TXN-12345678\",\n  \"idempotencyKey\": \"PAY-IDEM-001\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/patient/bills/1/pay",
+							"host": ["{{base_url}}"],
+							"path": ["patient", "bills", "1", "pay"]
+						}
+					}
+				}
+			]
+		}
+	]
+}
